@@ -61,7 +61,8 @@ Add a WANGEDITOR_CONFIGS setting to the project's settings.py file.::
             '#1c487f',
             '#4d80bf',
         ],  # 自定义配置颜色（字体颜色、背景色）可以添加更多的色号
-        'showLinkImg': False,
+        'showLinkImg': False,  # 隐藏插入网络图片
+        'uploadImgServer': False  #  隐藏上传图片
     }
     }
 
