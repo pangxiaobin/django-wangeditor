@@ -1,0 +1,22 @@
+{% load static %}
+{# wangeditor 里面的ul 样式和/static/admin/css/forms.css 的样式冲突#}
+<style>
+  .django-wangeditor-widget ul {
+    margin-left: auto !important;
+  }
+
+input, textarea, select, .form-row p, form .button {
+    font-family: "Roboto" !important;
+}
+  body {
+    font-family: "Roboto" !important;
+  }
+  .w-e-text ul li {
+    list-style: disc !important;
+  }
+</style>
+<div class="django-wangeditor-widget" data-field-id="{{ id }}" style="display: inline-block;">
+  <div data-processed="0" data-config="{{ config }}" id="wang_{{ id }}" data-id="{{ id }}" data-type="wangeditortype">
+  </div>
+  <textarea{{ final_attrs }} data-type="wangtextareas" style="display: none">{{ value }}</textarea>
+</div>
