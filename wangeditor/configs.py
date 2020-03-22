@@ -6,8 +6,8 @@ WANG_DEFAULT_CONFIG = {
 
     'menus': ['head', 'bold', 'fontSize', 'fontName', 'italic', 'underline', 'strikeThrough', 'foreColor', 'backColor',
               'link', 'list', 'justify', 'quote', 'emoticon', 'image', 'table', 'video', 'code', 'undo', 'redo'],
-    'pasteFilterStyle': 'true',  # 是否关闭粘贴样式的过滤
-    'pasteIgnoreImg': 'false',  # 是否忽略粘贴内容中的图片
+    'pasteFilterStyle': True,  # 是否关闭粘贴样式的过滤
+    'pasteIgnoreImg': False,  # 是否忽略粘贴内容中的图片
     'colors': [
         '#000000',
         '#eeece0',
