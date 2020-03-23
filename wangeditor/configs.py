@@ -19,5 +19,4 @@ WANG_DEFAULT_CONFIG = {
         '#46acc8',
         '#f9963b',
         '#ffffff'],  # 自定义配置颜色（字体颜色、背景色）可以添加更多的色号
-    'uploadImgServer': '/wangeditor/upload/'
 }
