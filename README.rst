@@ -74,16 +74,23 @@ Add a WANGEDITOR_CONFIGS setting to the project's settings.py file.::
         'menus': ['head', 'bold', 'fontSize', 'fontName', 'italic', 'underline', 'strikeThrough', 'foreColor',
                   'backColor',
                   'link', 'list', 'justify', 'quote', 'emoticon', 'image', 'table', 'video', 'code', 'undo', 'redo'],
-        'pasteFilterStyle': True,  # 是否关闭粘贴样式的过滤
-        'pasteIgnoreImg': False,  # 是否忽略粘贴内容中的图片
+        'pasteFilterStyle': True,  # Whether to turn off paste style filtering
+        'pasteIgnoreImg': False,  # Whether to ignore images in the pasted content
         'colors': [
             '#000000',
             '#eeece0',
             '#1c487f',
             '#4d80bf',
-        ],  # 自定义配置颜色（字体颜色、背景色）可以添加更多的色号
-        'showLinkImg': False,  # 隐藏插入网络图片
+        ],  # Custom configuration color (font color, background color) can add more color number
+        'showLinkImg': False,  # Hide the inserted network image
     }
     }
+
+-----------
+Update Log
+-----------
+version-1.0.2
+1、Resolve compatibility issues with django 4.0
+
 
 Refer to the configuration for more information, please see `https://www.kancloud.cn/wangfupeng/wangeditor3/332599`

@@ -3,16 +3,23 @@
 
 from __future__ import absolute_import
 
+import django
 from django import forms
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.core.serializers.json import DjangoJSONEncoder
-from django.utils.encoding import force_text
 from django.utils.functional import Promise
 from django.utils.safestring import mark_safe
 
 from js_asset import JS
 
+try:
+    from django.utils.encoding import force_text
+except ImportError:
+    from django.utils.encoding import force_str
+
+    force_text = force_str
+    
 from .configs import WANG_DEFAULT_CONFIG
 
 try:
@@ -21,6 +28,7 @@ try:
 except ImportError:
     # Django <1.11
     from django.template.loader import render_to_string
+
 
     def get_default_renderer():
         class DummyDjangoRenderer(object):
@@ -50,7 +58,6 @@ json_encode = LazyEncoder().encode
 
 
 class WangEditorWidget(forms.Textarea):
-
     class Media:
         # js
         js = (
@@ -60,7 +67,7 @@ class WangEditorWidget(forms.Textarea):
             'wangeditor/wangEditor.min.js',
         )
 
-    def __init__(self, config_name='default',  *args, **kwargs):
+    def __init__(self, config_name='default', *args, **kwargs):
         super(WangEditorWidget, self).__init__(*args, **kwargs)
         # Setup config from defaults.
         self.config = WANG_DEFAULT_CONFIG.copy()
@@ -94,7 +101,7 @@ class WangEditorWidget(forms.Textarea):
             value = ''
         final_attrs = self.build_attrs(self.attrs, attrs, name=name)
         return mark_safe(renderer.render('wangeditor/widget.html', {
-            'final_attrs': flatatt(final_attrs), # flatatt  设置html 的属性, 形式key=value
+            'final_attrs': flatatt(final_attrs),  # flatatt  设置html 的属性, 形式key=value
             'value': force_text(value),
             'config': json_encode(self.config),
             'id': final_attrs['id'],
