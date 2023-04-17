@@ -1,22 +1,65 @@
+<!--
+ * @Author: pangxiaobin panglaibin2013@163.com
+ * @Date: 2023-04-14 17:33:56
+ * @LastEditors: pangxiaobin panglaibin2013@163.com
+ * @LastEditTime: 2023-04-17 17:06:53
+ * @FilePath: /django-wangeditor/wangeditor/templates/wangeditor/widget.html
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 {% load static %}
+<link rel="stylesheet" href="{% static 'wangeditor/css/style.css' %}">
 {# wangeditor 里面的ul 样式和/static/admin/css/forms.css 的样式冲突#}
 <style>
-  .django-wangeditor-widget ul {
-    margin-left: auto !important;
-  }
+    .editor—wrapper {
+        border: 1px solid #ccc;
+        z-index: 1!important; /* 按需定义 */
+    }
+    .editor—wrapper ul {
+        margin-left: 0!important;
+    }
+    .w-e-bar{
+        z-index: 2!important;
+    }
+    .wangeditor-toolbar {
+        border-bottom: 1px solid #ccc;
+        z-index: 1;
+    }
 
-input, textarea, select, .form-row p, form .button {
-    font-family: "Roboto" !important;
-}
-  body {
-    font-family: "Roboto" !important;
-  }
-  .w-e-text ul li {
-    list-style: disc !important;
-  }
+    .wangeditor-container {
+        min-height: 400px;
+    }
+
+
+    .w-e-text-container h1,h2,h3,h4,h5 {
+        color: black!important;
+    }
+     .w-e-text-container h1{
+        background: white!important;
+        font-size: 2.5rem!important;
+    }
+    .w-e-text-container h2{
+        background: white!important;
+        font-size: 2rem!important;
+    }
+    .w-e-text-container h3{
+        background: white!important;
+        font-size: 1.5rem!important;
+    }
+     .w-e-text-container h4{
+        background: white!important;
+        font-size: 1.25rem!important;
+    }
+     .w-e-text-container h5{
+        background: white!important;
+        font-size: 1rem!important;
+    }
+
 </style>
 <div class="django-wangeditor-widget" data-field-id="{{ id }}" style="display: inline-block;">
-  <div data-processed="0" data-config="{{ config }}" id="wang_{{ id }}" data-id="{{ id }}" data-type="wangeditortype">
+  <div class="editor—wrapper" id="editor—wrapper_{{ id }}" data-processed="0" data-menu-conf="{{ menu_conf }}" data-toolbar-config="{{ toolbar_config }}" data-id="{{ id }}"
+       data-type="wangeditortype">
+    <div class="wangeditor-toolbar" id="toolbar-container_{{ id }}" data-type="wangeditorToolbar"><!-- 工具栏 --></div>
+    <div class="wangeditor-container" id="editor-container_{{ id }}" data-type="wangeditorContainer"><!-- 编辑器 --></div>
   </div>
-  <textarea{{ final_attrs }} data-type="wangtextareas" style="display: none">{{ value }}</textarea>
+<textarea{{ final_attrs }} data-type="wangtextareas" style="display: none">{{ value }}</textarea>
 </div>

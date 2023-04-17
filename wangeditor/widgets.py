@@ -64,7 +64,7 @@ class WangEditorWidget(forms.Textarea):
             JS('wangeditor/wangeditor-init.js', {
                 'id': 'wangeditor-init-script',
             }),
-            'wangeditor/wangEditor.min.js',
+            'wangeditor/wangEditor-v5.js',
         )
 
     def __init__(self, config_name='default', *args, **kwargs):
@@ -103,7 +103,8 @@ class WangEditorWidget(forms.Textarea):
         return mark_safe(renderer.render('wangeditor/widget.html', {
             'final_attrs': flatatt(final_attrs),  # flatatt  设置html 的属性, 形式key=value
             'value': force_text(value),
-            'config': json_encode(self.config),
+            'toolbar_config': json_encode(self.config['toolbar_config']),
+            'menu_conf': json_encode(self.config['menu_conf']),
             'id': final_attrs['id'],
         }))
 

@@ -16,3 +16,8 @@ class DummyBackend(object):
     @cached_property
     def is_image(self):
         return utils.is_valid_image_extension(self.file_object.name)
+
+    @cached_property
+    def is_video(self):
+        return utils.is_valid_video_extension(self.file_object.name)
+

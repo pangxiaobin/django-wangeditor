@@ -20,5 +20,3 @@ class BackendRegistry(object):
 
 
 registry = BackendRegistry()
-
-

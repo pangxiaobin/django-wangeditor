@@ -15,7 +15,6 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 def get_upload_filename(upload_name):
-
     # Generate date based path to put uploaded file.
     # If CKEDITOR_RESTRICT_BY_DATE is True upload file to date specific path.
     if getattr(settings, 'WANGEDITOR_RESTRICT_BY_DATE', True):
@@ -43,28 +42,57 @@ class ImageUploadView(generic.View):
         """
         Uploads a file and send back its URL to WANGEditor.
         """
-        uploaded_files = request.FILES
-
+        uploaded_file = request.FILES.get('wangeditor-uploaded-image')
         backend = registry.get_backend()
-        url_list = []
         err_no = 0
         msg = 'success'
-        for file_name, uploaded_file in uploaded_files.items():
-            file_wrapper = backend(storage, uploaded_file)
-            if not file_wrapper.is_image:
-                err_no = 1
-                msg = '%s is invalid file type' % file_name
-                break
-            filepath = get_upload_filename(file_name)
-            saved_path = file_wrapper.save_as(filepath)
-            url = get_media_url(saved_path)
-            url_list.append(url)
+        file_name = uploaded_file.name
+        file_wrapper = backend(storage, uploaded_file)
+        if not file_wrapper.is_image:
+            err_no = 1
+            msg = '%s is invalid file type' % file_name
+            return JsonResponse({'mgs': msg, 'err_no': err_no})
+        filepath = get_upload_filename(file_name)
+        saved_path = file_wrapper.save_as(filepath)
+        url = get_media_url(saved_path)
+
         ret_data = {
             "errno": err_no,
-            "data": url_list,
+            "data": {'url': url},
             'msg': msg
         }
         return JsonResponse(ret_data)
 
 
-upload = csrf_exempt(ImageUploadView.as_view())
+class VideoUploadView(generic.View):
+    http_method_names = ['post']
+
+    def post(self, request, **kwargs):
+        """
+        Uploads a video and send back its URL to WANGEditor.
+        """
+        uploaded_file = request.FILES.get('wangeditor-uploaded-video')
+
+        backend = registry.get_backend()
+        err_no = 0
+        msg = 'success'
+        file_name = uploaded_file.name
+        file_wrapper = backend(storage, uploaded_file)
+        if not file_wrapper.is_video:
+            err_no = 1
+            msg = '%s is invalid file type' % file_name
+            return JsonResponse({'mgs': msg, 'err_no': err_no})
+        filepath = get_upload_filename(file_name)
+        saved_path = file_wrapper.save_as(filepath)
+        url = get_media_url(saved_path)
+
+        ret_data = {
+            "errno": err_no,
+            "data": {'url': url},
+            'msg': msg
+        }
+        return JsonResponse(ret_data)
+
+
+img_upload = csrf_exempt(ImageUploadView.as_view())
+video_upload = csrf_exempt(VideoUploadView.as_view())

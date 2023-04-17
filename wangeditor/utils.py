@@ -11,6 +11,7 @@ from django.template.defaultfilters import slugify
 from django.utils.module_loading import import_string
 
 IMAGE_EXTENSIONS = {'jpg', 'jpeg', 'png', 'gif'}
+VIDEO_EXTENSIONS = {'mp4', 'webm', 'ogg', '3gpp', 'mpeg-4'}
 
 
 # Allow for a custom storage backend defined in settings.
@@ -53,4 +54,9 @@ def get_media_url(path):
 
 def is_valid_image_extension(file_name):
     """验证是否为图片"""
-    return file_name.split('.')[-1] in IMAGE_EXTENSIONS if file_name else False
+    return file_name.split('.')[-1].lower() in IMAGE_EXTENSIONS if file_name else False
+
+
+def is_valid_video_extension(file_name):
+    """验证是否为video"""
+    return file_name.split('.')[-1].lower() in VIDEO_EXTENSIONS if file_name else False

@@ -15,10 +15,12 @@ from . import views
 try:
     from django.conf.urls import url
     urlpatterns = [
-        url(r'^upload/$', staff_member_required(views.upload), name='upload')
+        url(r'^img_upload/$', staff_member_required(views.img_upload), name='img_upload'),
+        url(r'^video_upload/$', staff_member_required(views.video_upload), name='video_upload')
     ]
 except ImportError:
     from django.urls import path
     urlpatterns = [
-        path('upload/', staff_member_required(views.upload), name='upload')
+        path('img_upload/', staff_member_required(views.img_upload), name='img_upload'),
+        path('video_upload/', staff_member_required(views.video_upload), name='video_upload')
     ]

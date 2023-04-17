@@ -13,7 +13,7 @@ Quick start
 2.Add "wangeditor" to your INSTALLED_APPS setting like this::
 
     INSTALLED_APPS = [
-        ... 
+        ...
         'wangeditor',
     ]
 
@@ -48,48 +48,47 @@ Use upload local pictures
 
 2.Include the wangeditor URLconf in your project urls.py like this::
 
+  from django.conf.urls.static import static
+  from django.conf import settings
   # django >= 2.0
   path('wangeditor/', include('wangeditor.urls'))
   # django < 2.0
   url(r'wangeditor/', include('wangeditor.urls'))
+  if settings.DEBUG:
+      urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-  urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-3.Opens the configuration for uploading images::
-
-  WANGEDITOR_CONFIGS = {
-      'default':{
-          'uploadImgServer': '/wangeditor/upload/'
-      }
-  }
 
 -------
 config
 -------
-Optional - customizing wangEditor editor
-Add a WANGEDITOR_CONFIGS setting to the project's settings.py file.::
+Optional - customizing wangEditor editor Add a WANGEDITOR_CONFIGS setting to the project's settings.py file.::
 
-    WANGEDITOR_CONFIGS = {
-    'default': {
-        'menus': ['head', 'bold', 'fontSize', 'fontName', 'italic', 'underline', 'strikeThrough', 'foreColor',
-                  'backColor',
-                  'link', 'list', 'justify', 'quote', 'emoticon', 'image', 'table', 'video', 'code', 'undo', 'redo'],
-        'pasteFilterStyle': True,  # Whether to turn off paste style filtering
-        'pasteIgnoreImg': False,  # Whether to ignore images in the pasted content
-        'colors': [
-            '#000000',
-            '#eeece0',
-            '#1c487f',
-            '#4d80bf',
-        ],  # Custom configuration color (font color, background color) can add more color number
-        'showLinkImg': False,  # Hide the inserted network image
+ WANGEDITOR_CONFIGS = {
+  "default": {
+    "toolbar_config":{
+      "modalAppendToBody": False,
     }
+    "menu_conf": {
+       "uploadImage": {
+          "server": "/wangeditor/img_upload/",
+        },
+        "uploadVideo": {
+          "server": "/wangeditor/video_upload/"
+        }
     }
+ }
+ # toobar_config and menu_conf cong please see https://www.wangeditor.com/v5/toolbar-config.html and https://www.wangeditor.com/v5/menu-config.html
 
 -----------
 Update Log
 -----------
+version-2.0.0
+
+1、update wangeditor to wangeditor-v5;
+
 version-1.0.2
+
 1、Resolve compatibility issues with django 4.0
 
 

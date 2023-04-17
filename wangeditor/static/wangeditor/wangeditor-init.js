@@ -42,32 +42,61 @@
     function initialiseWangEditor() {
         var divs = Array.prototype.slice.call(document.querySelectorAll('div[data-type=wangeditortype]'));
         var textareas = Array.prototype.slice.call(document.querySelectorAll('textarea[data-type=wangtextareas]'));
+        var wangeditortype_toolbars = Array.prototype.slice.call(document.querySelectorAll('div[data-type=wangeditorToolbar]'));
+        var wangeditortype_container = Array.prototype.slice.call(document.querySelectorAll('div[data-type=wangeditorContainer]'));
         for (var i = 0; i < divs.length; ++i) {
             var d = divs[i];
             var t = textareas[i];
+            var tool = wangeditortype_toolbars[i]
+            var container = wangeditortype_container[i]
             if (d.getAttribute('data-processed') === '0' && d.id.indexOf('__prefix__') === -1) {
                 d.setAttribute('data-processed', '1');
-                var E = window.wangEditor;
-                var editor = new E(document.getElementById(d.id));
-                const textarea = document.getElementById(t.id);
-                editor.customConfig = JSON.parse(d.getAttribute('data-config'));
-                editor.customConfig.onchange = function (html) {
-                    // 监控变化，同步更新到 textarea
-                    textarea.innerHTML = html;
-                };
-                editor.customConfig.uploadImgHooks = {
-                     fail: function (xhr, editor, result) {
-                    // 图片上传并返回结果，但图片插入错误时触发
-                    // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
-                     if (result['errno'] !== 0){
-                         alert(result['msg'])
-                     }
-                },
-                };
-                editor.create();
-                if (textarea.innerHTML.length !== 0) {
-                    editor.txt.html(textarea.innerText);
+                const {createEditor, createToolbar} = window.wangEditor
+                const menutCong = JSON.parse(d.getAttribute('data-menu-conf'));
 
+                const editorConfig = {
+                    onChange(editor) {
+                        textarea.innerHTML = editor.getHtml();
+                    },
+                    MENU_CONF: menutCong
+                }
+                editorConfig.MENU_CONF['uploadVideo']['onFailed'] = function (file, res) {
+                    alert(`${file.name} 上传失败`, res['msg'])
+                }
+                editorConfig.MENU_CONF['uploadImage']['onFailed'] = function (file, res) {
+                    alert(`${file.name} 上传失败`, res['msg'])
+                }
+                const editor = createEditor({
+                    selector: '#' + container.id,
+                    html: '',
+                    config: editorConfig,
+                    mode: 'default', // or 'simple'
+                })
+
+                editor.on('fullScreen', () => {
+                    const stickyElements = document.querySelectorAll('.sticky');
+                    stickyElements.forEach(element => {
+                        element.style.display = 'none';
+                    });
+                })
+                editor.on('unFullScreen', () => {
+                    const stickyElements = document.querySelectorAll('.sticky');
+                    stickyElements.forEach(element => {
+                        element.style.display = '';
+                    });
+                })
+                const toolbarConfig = JSON.parse(d.getAttribute('data-toolbar-config'));
+                const toolbar = createToolbar({
+                    editor,
+                    selector: '#' + tool.id,
+                    config: toolbarConfig,
+                    mode: 'default', // or 'simple'
+                })
+                const textarea = document.getElementById(t.id);
+                // const toolbarConfig = JSON.parse(d.getAttribute('data-config'))
+
+                if (textarea.innerHTML.length !== 0) {
+                    editor.setHtml(textarea.innerText);
                 }
             }
         }
